@@ -1,1 +1,6 @@
 # 5G-SMF
+
+Orchestrating the User Plane: 5G-SMF in free5gc
+Within the intricate dance of data transmission in a 5G network, the 5G-SMF, or Session Management Function, plays a critical role as the choreographer. This central component orchestrates the user plane, the pathway for data to flow between user equipment (UE) and various network functions. The 5G-SMF acts as the traffic director, establishing, modifying, and releasing sessions for data transmission. Imagine a complex transportation network – the 5G-SMF meticulously routes data packets, ensuring they reach their intended destinations efficiently.
+
+Furthermore, the 5G-SMF acts as a security guardian, enforcing policies and applying security measures to safeguard data transmissions. It actively manages Quality of Service (QoS) parameters, guaranteeing a smooth and reliable user experience. By diligently managing sessions and ensuring secure data flow, the 5G-SMF plays a vital role in the smooth operation and performance of the 5G core network.
