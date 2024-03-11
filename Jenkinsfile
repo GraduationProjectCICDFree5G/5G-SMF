@@ -22,7 +22,7 @@ pipeline {
 
         stage('Pulling base image from Dockerhub') {
             steps {
-                    sh 'docker pull docker pull faborange/amf-base'
+                    sh 'docker pull faborange/smf-base'
             }
         }
 
