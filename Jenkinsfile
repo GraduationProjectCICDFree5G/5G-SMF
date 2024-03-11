@@ -22,7 +22,7 @@ pipeline {
 
         stage('Pulling base image from Dockerhub') {
             steps {
-                    sh 'docker pull 5ggraduationproject/smf-base'
+                    sh 'docker pull gradproj/smf-base'
             }
         }
 
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 sh(script: """
                     docker images -a
-                    docker build -t gradproj/5g-smf:latest . 
+                    docker build -t 5ggraduationproject/5g-smf:latest . 
                     docker images -a
                 """)
             }
