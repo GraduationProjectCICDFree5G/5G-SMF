@@ -20,30 +20,21 @@ pipeline {
             }
         }
 
-   
-        stage('Clone GitHub repository') {
+        stage('Pulling base image from Dockerhub') {
             steps {
-                script {
-                    // Clone your GitHub repository
-                    git 'https://github.com/GraduationProjectCICDFree5G/5G-SMF.git'
-                }
+                    sh 'docker pull free5gc/smf'
             }
         }
 
         stage('docker build') {
             steps {
-                script {
-                    // Build the Docker image using the Dockerfile in the cloned repository
-                    sh """
-                        cd 5G-SMF  # Change to your repository directory
-                        docker images -a
-                        docker build -t 5ggraduationproject/5g-nrf:latest .
-                        docker images -a
-                    """
-                }
+                sh(script: """
+                    docker images -a
+                    docker build -t 5ggraduationproject/5g-smf:latest . 
+                    docker images -a
+                """)
             }
         }
-    
 
         stage('Scan Image for Common Vulnerabilities and Exposures') {
             steps {
