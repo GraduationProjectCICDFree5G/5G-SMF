@@ -22,7 +22,7 @@ pipeline {
 
         stage('Pulling base image from Dockerhub') {
             steps {
-                    sh 'docker pull abodiaa/smf-base'
+                    sh 'docker pull ayoubtl/smf-base'
             }
         }
 
