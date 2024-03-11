@@ -30,7 +30,7 @@ pipeline {
             steps {
                 sh(script: """
                     docker images -a
-                    docker build -t 5ggraduationproject/5g-smf:latest . 
+                    docker build -t gradproj/5g-smf:latest . 
                     docker images -a
                 """)
             }
