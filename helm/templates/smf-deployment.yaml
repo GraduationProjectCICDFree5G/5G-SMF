@@ -1,15 +1,3 @@
-#
-# Software Name : towards5gs-helm
-# SPDX-FileCopyrightText: Copyright (c) 2021 Orange
-# SPDX-License-Identifier: Apache-2.0
-#
-# This software is distributed under the Apache License 2.0,
-# the text of which is available at https://github.com/Orange-OpenSource/towards5gs-helm/blob/main/LICENSE
-# or see the "LICENSE" file for more details.
-#
-# Author: Abderaouf KHICHANE, Ilhem FAJJARI, Ayoub BOUSSELMI
-# Software description: An open-source project providing Helm charts to deploy 5G components (Core + RAN) on top of Kubernetes
-#
 {{- with .Values.smf }}
 apiVersion: apps/v1
 kind: Deployment
@@ -32,14 +20,6 @@ spec:
     metadata:
       annotations:
         {{- include "free5gc-smf.smfAnnotations" $ | nindent 8 }}
-        {{- if and $.Values.isPfcpNeeded $.Values.global.n4network.enabled}}
-        k8s.v1.cni.cncf.io/networks: '[
-            { "name": "{{ $.Values.global.n4network.name }}-{{ include "free5gc-smf.fullname" $ }}",
-              "interface": "n4",
-              "ips": [ "{{ $.Values.global.smf.n4if.ipAddress }}/{{ $.Values.global.n4network.cidr }}" ],
-              "gateway": [ "{{ $.Values.global.n4network.gatewayIP }}" ]
-            }]'
-        {{- end }}
         checksum/config: {{ include (print $.Template.BasePath "/smf-configmap.yaml") $ | sha256sum }}
       labels:
         {{- include "free5gc-smf.selectorLabels" $ | nindent 8 }}
@@ -67,6 +47,8 @@ spec:
         securityContext:
             {{- toYaml .securityContext | nindent 12 }}
         ports:
+        - containerPort: {{ .service.port }}
+        ports:
         - name: nsmf
           containerPort: {{ .service.port }}
         {{- if $.Values.isPfcpNeeded }}
@@ -81,7 +63,7 @@ spec:
             value: release
         volumeMounts:
         - mountPath: {{ .volume.mount }}
-          name: {{ include "free5gc-smf.fullname" $ }}-volume
+          name: {{ .volume.name }}
         resources:
             {{- toYaml .resources | nindent 12 }}
       dnsPolicy: ClusterFirst
@@ -94,11 +76,11 @@ spec:
         {{- toYaml .tolerations | nindent 8 }}
 
       volumes:
-      - name: {{ include "free5gc-smf.fullname" $ }}-volume
+      - name: {{ .volume.name }}
         projected:
           sources:
           - configMap:
-              name: {{ include "free5gc-smf.fullname" $ }}-configmap
+              name: {{ .configmap.name }}
               items:
               - key: smfcfg.yaml
                 path: smfcfg.yaml
